@@ -67,14 +67,16 @@ To see help for a specific flag, --help flag_name ( with or without dashes )
 ###################################################
 _usage() {
     [ -n "${1}" ] && {
-        help_usage_usage=""
-        _flag_help "${1}" help_usage_usage
+        for flag_usage in "${@}"; do
+            help_usage_usage=""
+            _flag_help "${flag_usage}" help_usage_usage
 
-        if [ -z "${help_usage_usage}" ]; then
-            printf "%s\n" "Error: No help found for ${1}"
-        else
-            printf "%s\n%s\n%s\n" "${__PARSER_BAR}" "${help_usage_usage}" "${__PARSER_BAR}"
-        fi
+            if [ -z "${help_usage_usage}" ]; then
+                printf "%s\n" "Error: No help found for ${flag_usage}"
+            else
+                printf "%s\n%s\n%s\n" "${__PARSER_BAR}" "${help_usage_usage}" "${__PARSER_BAR}"
+            fi
+        done
         exit 0
     }
 
